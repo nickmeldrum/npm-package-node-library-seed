@@ -1,0 +1,92 @@
+{
+  "name": "[[%NPM_NAME%]]",
+  "version": "0.0.1",
+  "description": "[[%GITHUB_DESCRIPTION%]]",
+  "keywords": [],
+  "homepage": "https://github.com/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]]#readme",
+  "author": "[[%AUTHOR_NAME%]] <[[%AUTHOR_EMAIL%]]> ([[%AUTHOR_WEBSITE%]])",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]]/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]].git"
+  },
+  "engines": {
+    "node": ">=7.10.1"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "lint": "eslint src --fix",
+    "test": "yarn lint && jest --coverage",
+    "test-changed": "lint-staged && jest -o",
+    "watch": "jest --watch --notify"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageDirectory": "coverage"
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb-base",
+      "plugin:prettier/recommended"
+    ],
+    "env": {
+      "node": true,
+      "es6": true,
+      "jest": true
+    },
+    "rules": {
+      "import/no-extraneous-dependencies": 0
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "extensions": [
+            ".js"
+          ],
+          "paths": [
+            "."
+          ]
+        }
+      }
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "useTabs": false,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "trailingComma": "all",
+    "parser": "babel",
+    "printWidth": 100
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn test-changed"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "husky": "^1.3.1",
+    "jest": "^24.1.0",
+    "lint-staged": "^8.1.5",
+    "coveralls": "^3.0.3",
+    "prettier": "^1.16.4"
+  }
+}
