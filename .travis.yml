@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - 8.10.0
+deploy:
+  provider: npm
+  email: [[%NPM_EMAIL%]]
+  api_key:
+    secure: "[[%NPM_APIKEY%]]"
+  on:
+    branch: master
+    tags: true
+after_script: "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
