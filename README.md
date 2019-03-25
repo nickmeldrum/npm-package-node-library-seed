@@ -1,69 +1,54 @@
-# [[%GITHUB_REPO%]]
+# npm-package-node-library-seed
 
-[![Build Status](https://travis-ci.org/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]].svg?branch=master)](https://travis-ci.org/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]])
-[![Coverage Status](https://coveralls.io/repos/github/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]]/badge.svg?branch=master)](https://coveralls.io/github/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]]?branch=master)
-[![NPM Version](https://img.shields.io/npm/v/[[%NPM_NAME%]].svg)](https://www.npmjs.com/package/[[%NPM_NAME%]])
-[![NPM Downloads](https://img.shields.io/npm/dw/[[%NPM_NAME%]].svg)](https://www.npmjs.com/package/[[%NPM_NAME%]])
+A seed project to create a new "npm package node library" repository using jest and travis
 
-[[%GITHUB_DESCRIPTION%]]
+## Opinions/ Conventions:
 
-## Installation
+ * use this to build a public foss *npm package* node library
+ * *lints/ formats* using `airbnb` recommmended es6 and `prettier` rules
+ * unit *tests* and code coverage reports using `jest`
+ * *checks* using `husky` and `lint-staged` to ensure no commits fail linting or tests
+ * *builds* automatically on `travis` after every master commit to remote
+ * *tracks* code coverage using `coveralls`
+ * *deploys* automatically to `npm` if the commit is tagged
 
-`yarn add [[%NPM_NAME%]]`
+## Todo:
 
-or
+ * create github repo based on repo_name
+ * create travis project
+ * create coveralls project?
+ * git clone template locally
+ * run replacement script on local repo
+ * commit and push
 
-`npm install [[%NPM_NAME%]]`
-
-## Basic usage example
-
-TODO: Complete basic usage description
+## Example generator config:
 
 ```
-TODO: Complete basic usage example code
+{
+    "github": {
+        "user": "nickmeldrum",
+        "repo": "list-subdirectories-node",
+        "description": "A simple function that allows you to pass in a path to a directory and it will return a string array of subdirectories."
+    },
+    "npm": {
+        "email": "npm@nickmeldrum.com",
+        "apikey": "V8o3pjyls2Av7tpffdXlRHiPZkff3FtndsBXGl+o7HbeWgWt6I1KM2iHAHdWrHzXPAtJkt1kiR/tCdLxMHIHdcDx6dUsV8+wWc/NcFLrliC5gU3t5EJVGtk6BT2GlX4NS1KYLwzG57cVqVtb/kT3T5HVaMRuLNBQWevd6Y9UYpScFakzfNLV/5lAH0biaTrnRyQh4jyGrMNA8K9djo96XkhidibFoO4+7Shj0u3KbaqDdIBt9/6B+3AGkB1+gsAOz6nTxfPyDylhYig00+7qdTcW+XLl5en7fwOv+I+fHCxn94eVj7lxV8HBXrR/WRgFkWWgSer9bmaf7hiHJHU/cQ2LGE0nm5BrkAJjmqPWA9pJqgGx+z++r93PXIxmHuSNQqcFbeVmntiZwQicMy/VUYqlYE0trIdLhGwZSVVL4XN4bjV1QYsjzz0cQE7DxvvRjygFtNhFd0+HP6DCKCNwbqyewQrCSxC+w4JckfER4BZ+54OUcd6XsQB2vcIuV0QvmdzDsOnJHVUjYAaw7SmjBtO+zQAQdk2NfgLW2nCsE+1R6Aetp10oYf5Y8VOsdzion9/m0fzGBHnOKM1VGTPEYSmRWNmoTe8ESd+0pvgbIy7Cv28C2M8XQ0WfvbrQZJzVtoDlytiNeLXgcB+EFQdA2XFKcJPOHQNBIcW7JQb01s4="
+        "name": "list-subdirectories",
+        "keywords": [
+            "filesystem",
+            "recursive"
+        ]
+    },
+    "author": {
+        "name": "Nick Meldrum",
+        "email": "nick@nickmeldrum.com",
+        "website": "https://nickmeldrum.com/"
+    }
+}
 ```
 
-## API
+## future:
 
-### [TODO:METHOD_NAME] method
-
-[TODO:METHOD_DESCRIPTION]
-
-#### [TODO:ARGUMENT_NAME]: [TODO:ARGUMENT_TYPE] ([TODO:required|optional])
-
-[TODO:ARGUMENT_DESCRIPTION]
-
-## Errors
-
-### [TODO:ERROR_NAME]
-
-[TODO:ERROR_DESCRIPTION]
-
-## Examples
-
-### [TODO:EXAMPLE_DESCRIPTION]
-
-[TODO:EXAMPLE_CODE]
-
-## License
-
-[ISC](https://opensource.org/licenses/ISC)
-(i.e. feel free to use this for any purpose, but I accept no liability for it's use.)
-
-## Contributing
-
-Feel free to [open issues](https://github.com/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]]/issues) or even better [submit pull requests](https://github.com/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]]/pulls).
-
-### Guidelines for contributing (good pull requests):
-
- * Please follow the style that is already present in the repository.
- * Please ensure the code passes all lint (eslint) and format (prettier) rules (Check using `yarn lint`.)
- * Please ensure all (jest) tests are passing (Check using `yarn test`.)
- * Please ensure all code is covered by tests. (Check the coverage report created by `yarn test`.)
- * Please ensure any change in the public api is documented properly in the *README*.
-
-If you would like to become a maintainer, feel free to [contact me](https://github.com/[[%GITHUB_USER%]]). You would probably have to have become known to me via submitted pull requests first.
-
-## Keywords
-
-[[%NPM_KEYWORDS%]]
+ * maybe have a switch for foss (ISC) based or private (no license) based repo/package?
+ * allow for setting node engine
+ * have an mjs version? or a ts version?
