@@ -12,10 +12,28 @@ A seed project to create a new "npm package node library" repository using jest 
  * *tracks* code coverage using `coveralls`
  * *deploys* automatically to `npm` if the commit is tagged
 
+## Prerequisites
+
+ * a github account
+ * a travis account linked to your github account
+ * a coveralls account linked to your github account
+ * an npm account
+ * node and yarn installed locally
+
+## Setup:
+
+ * Get a github personal access token and set it to the environment variable: `GITHUB_TOKEN`
+ * Get a travis personal access token and set it to the environment variable: `TRAVIS_TOKEN`
+ * Install template build dependencies by running: `yarn`
+
+## Running it:
+
+ * Type `yarn start`
+
 ## Todo:
 
  * create github repo based on repo_name
- * create travis project
+ * create travis project: curl -H "Travis-API-Version: 3" -H "User-Agent: API Explorer" \\n  -H "Authorization: token $TRAVIS_TOKEN" \\n  https://api.travis-ci.org/owner/nickmeldrum/repos > um.json
  * create coveralls project?
  * git clone template locally
  * run replacement script on local repo
@@ -52,3 +70,5 @@ A seed project to create a new "npm package node library" repository using jest 
  * maybe have a switch for foss (ISC) based or private (no license) based repo/package?
  * allow for setting node engine
  * have an mjs version? or a ts version?
+ * allow switch for adding a proxy server
+ * allow switch for adding repo to org instead of user
