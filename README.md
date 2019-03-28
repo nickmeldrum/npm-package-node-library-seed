@@ -24,6 +24,7 @@ A seed project to create a new "npm package node library" repository using jest 
 
  * Get a github personal access token and set it to the environment variable: `GITHUB_TOKEN`
  * Get a travis personal access token and set it to the environment variable: `TRAVIS_TOKEN`
+ * Set the config values to your project setup values
  * Install template build dependencies by running: `yarn`
 
 ## Running it:
@@ -32,12 +33,9 @@ A seed project to create a new "npm package node library" repository using jest 
 
 ## Todo:
 
- * create github repo based on repo_name
- * create travis project: curl -H "Travis-API-Version: 3" -H "User-Agent: API Explorer" -H "Authorization: token $TRAVIS_TOKEN" https://api.travis-ci.org/owner/nickmeldrum/repos > um.json
- * create coveralls project?
- * git clone template locally
  * run replacement script on local repo
- * commit and push
+ * activate travis project: curl -H "Travis-API-Version: 3" -H "User-Agent: API Explorer" -H "Authorization: token $TRAVIS_TOKEN" https://api.travis-ci.org/owner/nickmeldrum/repos > um.json
+ * create coveralls project?
 
 ## Example generator config:
 

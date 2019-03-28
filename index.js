@@ -64,6 +64,16 @@ const travisList = async () => {
   console.log('repos:', list.map(item => item.name))
 }
 
+const travisInfo = async () => {
+  const info = await travis.info()
+  console.log('repo:', info)
+}
+
+const travisValidate = async () => {
+  const valid = await travis.configValid()
+  console.log('the travis config is', valid ? 'valid' : 'not valid')
+}
+
 /* eslint-disable no-unused-expressions */
 require('yargs')
   .command('fs-init', '', () => {}, async () => fs.init())
@@ -72,6 +82,9 @@ require('yargs')
   .command('git-initialSetup', '', () => {}, async () => git.initialSetup())
 
   .command('travis-list', '', () => {}, travisList)
+  .command('travis-validate', '', () => {}, travisValidate)
+  .command('travis-info', '', () => {}, travisInfo)
+  .command('travis-activate', '', () => {}, async () => travis.activate())
 
   .command(['github-repos', 'github-list'], 'list github repos', () => {}, ghRepos)
   .command('github-exists <repo>', '', () => {}, ghExists)
