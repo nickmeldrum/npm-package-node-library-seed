@@ -1,8 +1,17 @@
 /* eslint-disable no-console */
+const setupFs = require('./fs')
+const setupGit = require('./git')
 const setupGithub = require('./github')
 const setupTravis = require('./travis')
 
 const config = {
+  project: {
+    name: 'new-repo',
+    description: 'a new repo yo',
+  },
+  git: {
+    rootPath: '../', // relative to where you are running the process or absolute
+  },
   github: {
     author: 'nickmeldrum',
     token: process.env.GITHUB_TOKEN,
@@ -17,31 +26,38 @@ const config = {
   },
 }
 
+const fs = setupFs(config)
+const git = setupGit(config)
 const gh = setupGithub(config)
 const travis = setupTravis(config)
 
 const clean = async () => {
-  await gh.repos.delete('new-repo')
+  await gh.repos.delete(config.project.name)
+  await fs.clean()
 }
 
-const create = async () => {
-  await gh.repos.create('new-repo', 'test-description')
+const setup = async () => {
+  await gh.repos.create(config.project.name, config.project.description)
+  await fs.init()
+  await git.initialSetup()
 }
 
-const repos = async () => {
+const ghRepos = async () => {
   const list = await gh.repos.list()
   console.log('repos:', list.map(item => item.name))
 }
 
-const branches = async () => {
-  const list = await gh.repo.branches('nickmeldrumdotcom')
+const ghBranches = async args => {
+  const list = await gh.repo.branches(args.repo)
   console.log('branches:', list.map(item => item.name))
 }
 
-const exists = async args => {
+const ghExists = async args => {
   const repoExists = await gh.repo.exists(args.repo)
   console.log(args.repo, repoExists ? 'exists' : "doesn't exist")
 }
+
+const ghCreate = async args => gh.repos.create(args.repo, args.description)
 
 const travisList = async () => {
   const list = await travis.list()
@@ -50,11 +66,19 @@ const travisList = async () => {
 
 /* eslint-disable no-unused-expressions */
 require('yargs')
+  .command('fs-init', '', () => {}, async () => fs.init())
+  .command('fs-clean', '', () => {}, async () => fs.clean())
+
+  .command('git-initialSetup', '', () => {}, async () => git.initialSetup())
+
   .command('travis-list', '', () => {}, travisList)
-  .command('exists <repo>', '', () => {}, exists)
-  .command('branches <repo>', '', () => {}, branches)
+
+  .command(['github-repos', 'github-list'], 'list github repos', () => {}, ghRepos)
+  .command('github-exists <repo>', '', () => {}, ghExists)
+  .command('github-branches <repo>', '', () => {}, ghBranches)
+  .command('github-create <repo> <description>', 'Create a github repo', () => {}, ghCreate)
+
   .command(['clean', 'delete'], 'Clean up all created resources', () => {}, clean)
-  .command(['repos', 'list'], 'list github repos', () => {}, repos)
-  .command(['create', '*'], 'Create the repo', () => {}, create)
+  .command(['init', 'setup'], 'setup the project', () => {}, setup)
   .demandCommand(1, 1).argv
 /* eslint-enable no-unused-expressions */

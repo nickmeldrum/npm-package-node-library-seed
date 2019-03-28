@@ -74,9 +74,11 @@
     ]
   },
   "dependencies": {
+    "fs-extra": "^7.0.1",
     "gh-got": "^8.1.0",
     "got": "^9.6.0",
     "parse-link-header": "^1.0.1",
+    "simple-git": "^1.110.0",
     "tunnel": "^0.0.6",
     "yargs": "^13.2.2"
   },
