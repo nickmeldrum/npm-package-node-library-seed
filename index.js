@@ -1,14 +1,24 @@
 /* eslint-disable no-console */
 const setupGithub = require('./github')
+const setupTravis = require('./travis')
 
-const gh = setupGithub({
-  author: 'nickmeldrum',
-  token: process.env.GITHUB_TOKEN,
+const config = {
+  github: {
+    author: 'nickmeldrum',
+    token: process.env.GITHUB_TOKEN,
+  },
+  travis: {
+    author: 'nickmeldrum',
+    token: process.env.TRAVIS_TOKEN,
+  },
   proxy: {
     host: 'http.proxy.fmr.com',
     port: 8000,
   },
-})
+}
+
+const gh = setupGithub(config)
+const travis = setupTravis(config)
 
 const clean = async () => {
   await gh.repos.delete('new-repo')
@@ -33,8 +43,14 @@ const exists = async args => {
   console.log(args.repo, repoExists ? 'exists' : "doesn't exist")
 }
 
+const travisList = async () => {
+  const list = await travis.list()
+  console.log('repos:', list.map(item => item.name))
+}
+
 /* eslint-disable no-unused-expressions */
 require('yargs')
+  .command('travis-list', '', () => {}, travisList)
   .command('exists <repo>', '', () => {}, exists)
   .command('branches <repo>', '', () => {}, branches)
   .command(['clean', 'delete'], 'Clean up all created resources', () => {}, clean)
