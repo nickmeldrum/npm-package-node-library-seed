@@ -25,7 +25,7 @@ module.exports = config => {
       agent,
       json,
       headers: {
-        authorization: `token ${config.travis.token}`,
+        authorization: `token ${config.authentication.travis_token}`,
         'Travis-API-Version': '3',
       },
       ...options,
@@ -42,17 +42,18 @@ module.exports = config => {
   const travis = {}
 
   travis.list = async () =>
-    listAll(`/owner/${config.travis.author}/repos?limit=100`, 'repositories')
+    listAll(`/owner/${config.author.github_username}/repos?limit=100`, 'repositories')
 
-  travis.info = async () => callTravis(`/repo/${config.travis.author}%2F${config.project.name}`)
+  travis.info = async () =>
+    callTravis(`/repo/${config.author.github_username}%2F${config.project.repo_name}`)
 
   travis.activate = async () =>
-    callTravis(`/repo/${config.travis.author}%2F${config.project.name}/activate`, {
+    callTravis(`/repo/${config.author.github_username}%2F${config.project.repo_name}/activate`, {
       method: 'POST',
     })
 
   travis.configValid = async () => {
-    const configPath = path.join(config.git.rootPath, config.project.name, '.travis.yml')
+    const configPath = path.join(config.local.rootPath, config.project.repo_name, '.travis.yml')
     const body = await readFile(configPath, 'utf8')
     try {
       await callTravis(

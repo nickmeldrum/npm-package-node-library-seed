@@ -15,7 +15,7 @@ module.exports = config => {
 
   const callGh = async (url, options = {}) =>
     ghGot(url, {
-      token: config.github.token,
+      token: config.authentication.github_token,
       agent,
       ...options,
     })
@@ -39,14 +39,15 @@ module.exports = config => {
   gh.repos.create = async (name, description) =>
     callGh(`user/repos`, { method: 'POST', body: { name, description } })
   gh.repos.delete = async name =>
-    callGh(`repos/${config.github.author}/${name}`, { method: 'DELETE' })
+    callGh(`repos/${config.author.github_username}/${name}`, { method: 'DELETE' })
   gh.repos.list = async () => listAll('user/repos')
 
-  gh.repo.info = async name => callGh(`/repos/${config.github.author}/${name}`)
-  gh.repo.branches = async name => listAll(`/repos/${config.github.author}/${name}/branches`)
+  gh.repo.info = async name => callGh(`/repos/${config.author.github_username}/${name}`)
+  gh.repo.branches = async name =>
+    listAll(`/repos/${config.author.github_username}/${name}/branches`)
   gh.repo.exists = async name => {
     try {
-      await callGh(`/repos/${config.github.author}/${name}`, { method: 'HEAD' })
+      await callGh(`/repos/${config.author.github_username}/${name}`, { method: 'HEAD' })
     } catch (e) {
       if (e.response.statusCode === 404) return false
       throw e

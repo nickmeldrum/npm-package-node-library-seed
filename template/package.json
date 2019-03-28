@@ -1,17 +1,17 @@
 {
-  "name": "[[%NPM_NAME%]]",
+  "name": "{{{project.name}}}",
   "version": "0.0.1",
-  "description": "[[%GITHUB_DESCRIPTION%]]",
+  "description": "{{{project.description}}}",
   "keywords": [],
-  "homepage": "https://github.com/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]]#readme",
-  "author": "[[%AUTHOR_NAME%]] <[[%AUTHOR_EMAIL%]]> ([[%AUTHOR_WEBSITE%]])",
+  "homepage": "https://github.com/{{{author.github_username}}}/{{{project.repo_name}}}#readme",
+  "author": "{{{author.name}}} <{{{author.email}}}> ({{{author.website}}})",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]]/issues"
+    "url": "https://github.com/{{{author.github_username}}}/{{{project.repo_name}}}/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]].git"
+    "url": "git+https://github.com/{{{author.github_username}}}/{{{project.repo_name}}}.git"
   },
   "engines": {
     "node": ">=7.10.1"

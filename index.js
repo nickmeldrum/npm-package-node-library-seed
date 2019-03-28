@@ -5,25 +5,30 @@ const setupGithub = require('./github')
 const setupTravis = require('./travis')
 
 const config = {
+  author: {
+    name: 'Nick Meldrum',
+    email: 'nick@nickmeldrum.com',
+    website: 'https://nickmeldrum.com',
+    github_username: 'nickmeldrum',
+  },
   project: {
     name: 'new-repo',
+    repo_name: 'new-repo-node',
     description: 'a new repo yo',
   },
-  git: {
+  local: {
     rootPath: '../', // relative to where you are running the process or absolute
   },
-  github: {
-    author: 'nickmeldrum',
-    token: process.env.GITHUB_TOKEN,
+  authentication: {
+    github_token: process.env.GITHUB_TOKEN,
+    travis_token: process.env.TRAVIS_TOKEN,
   },
-  travis: {
-    author: 'nickmeldrum',
-    token: process.env.TRAVIS_TOKEN,
-  },
+  /*
   proxy: {
     host: 'http.proxy.fmr.com',
     port: 8000,
   },
+  */
 }
 
 const fs = setupFs(config)
@@ -32,12 +37,12 @@ const gh = setupGithub(config)
 const travis = setupTravis(config)
 
 const clean = async () => {
-  await gh.repos.delete(config.project.name)
+  await gh.repos.delete(config.project.repo_name)
   await fs.clean()
 }
 
 const setup = async () => {
-  await gh.repos.create(config.project.name, config.project.description)
+  await gh.repos.create(config.project.repo_name, config.project.description)
   await fs.init()
   await git.initialSetup()
 }

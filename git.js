@@ -2,7 +2,7 @@ const path = require('path')
 const simpleGit = require('simple-git/promise')
 
 module.exports = config => {
-  const workingDir = path.join(config.git.rootPath, config.project.name)
+  const workingDir = path.join(config.local.rootPath, config.project.repo_name)
 
   const git = {}
 
@@ -13,7 +13,7 @@ module.exports = config => {
     await execGit.commit('initial commit')
     await execGit.addRemote(
       'origin',
-      `https://github.com/${config.github.author}/${config.project.name}.git`,
+      `https://github.com/${config.author.github_username}/${config.project.repo_name}.git`,
     )
     await execGit.push('origin', 'master')
   }
