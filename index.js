@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+const setupChecks = require('./checks')
 const setupFs = require('./fs')
 const setupGit = require('./git')
 const setupGithub = require('./github')
@@ -34,6 +35,7 @@ const config = {
   */
 }
 
+const checks = setupChecks(config)
 const fs = setupFs(config)
 const git = setupGit(config)
 const gh = setupGithub(config)
@@ -45,9 +47,11 @@ const clean = async () => {
 }
 
 const setup = async () => {
+  checks.validate()
   await gh.repos.create(config.project.repo_name, config.project.description)
   await fs.init()
   await git.initialSetup()
+  await travis.activate()
 }
 
 const ghRepos = async () => {
@@ -84,6 +88,8 @@ const travisValidate = async () => {
 
 /* eslint-disable no-unused-expressions */
 require('yargs')
+  .command('validate', '', () => {}, async () => checks.validateConfig())
+
   .command('fs-init', '', () => {}, async () => fs.init())
   .command('fs-clean', '', () => {}, async () => fs.clean())
 
