@@ -53,6 +53,7 @@ A seed project to create a new "npm package node library" repository using jest 
 
 ## Todo:
 
+ * deal with config - external config file? or set by CLI args? or questions? - should proxy settings be in ENV (machine specific?)
  * improve the initialisation of child modules (injecting config?) - removal of "setup" method
  * remove duplication in api based modules (use of got/ proxy etc.)
  * move workingDir into shared place - i.e. config has some derived values?
