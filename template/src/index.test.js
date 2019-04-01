@@ -1,6 +1,6 @@
 const func = require('../')
 
-describe('[[%NPM_NAME%]]', () => {
+describe('{{{project.name}}}', () => {
   test('should return true', () => {
     expect(func()).toEqual(true)
   })

@@ -1,19 +1,19 @@
-# [[%GITHUB_REPO%]]
+# {{{project.repo_name}}}
 
-[![Build Status](https://travis-ci.org/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]].svg?branch=master)](https://travis-ci.org/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]])
-[![Coverage Status](https://coveralls.io/repos/github/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]]/badge.svg?branch=master)](https://coveralls.io/github/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]]?branch=master)
-[![NPM Version](https://img.shields.io/npm/v/[[%NPM_NAME%]].svg)](https://www.npmjs.com/package/[[%NPM_NAME%]])
-[![NPM Downloads](https://img.shields.io/npm/dw/[[%NPM_NAME%]].svg)](https://www.npmjs.com/package/[[%NPM_NAME%]])
+[![Build Status](https://travis-ci.org/{{{author.github_username}}}/{{{project.repo_name}}}.svg?branch=master)](https://travis-ci.org/{{{author.github_username}}}/{{{project.repo_name}}})
+[![Coverage Status](https://coveralls.io/repos/github/{{{author.github_username}}}/{{{project.repo_name}}}/badge.svg?branch=master)](https://coveralls.io/github/{{{author.github_username}}}/{{{project.repo_name}}}?branch=master)
+[![NPM Version](https://img.shields.io/npm/v/{{{project.name}}}.svg)](https://www.npmjs.com/package/{{{project.name}}})
+[![NPM Downloads](https://img.shields.io/npm/dw/{{{project.name}}}.svg)](https://www.npmjs.com/package/{{{project.name}}})
 
-[[%GITHUB_DESCRIPTION%]]
+{{{project.description}}}
 
 ## Installation
 
-`yarn add [[%NPM_NAME%]]`
+`yarn add {{{project.name}}}`
 
 or
 
-`npm install [[%NPM_NAME%]]`
+`npm install {{{project.name}}}`
 
 ## Basic usage example
 
@@ -52,7 +52,7 @@ TODO: Complete basic usage example code
 
 ## Contributing
 
-Feel free to [open issues](https://github.com/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]]/issues) or even better [submit pull requests](https://github.com/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]]/pulls).
+Feel free to [open issues](https://github.com/{{{author.github_username}}}/{{{project.repo_name}}}/issues) or even better [submit pull requests](https://github.com/{{{author.github_username}}}/{{{project.repo_name}}}/pulls).
 
 ### Guidelines for contributing (good pull requests):
 
@@ -62,8 +62,8 @@ Feel free to [open issues](https://github.com/[[%GITHUB_USER%]]/[[%GITHUB_REPO%]
  * Please ensure all code is covered by tests. (Check the coverage report created by `yarn test`.)
  * Please ensure any change in the public api is documented properly in the *README*.
 
-If you would like to become a maintainer, feel free to [contact me](https://github.com/[[%GITHUB_USER%]]). You would probably have to have become known to me via submitted pull requests first.
+If you would like to become a maintainer, feel free to [contact me](https://github.com/{{{author.github_username}}}). You would probably have to have become known to me via submitted pull requests first.
 
 ## Keywords
 
-[[%NPM_KEYWORDS%]]
+{{{NPM_KEYWORDS}}}

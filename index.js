@@ -10,6 +10,7 @@ const config = {
     email: 'nick@nickmeldrum.com',
     website: 'https://nickmeldrum.com',
     github_username: 'nickmeldrum',
+    npm_email: 'npm@nickmeldrum.com',
   },
   project: {
     name: 'new-repo',
@@ -22,6 +23,7 @@ const config = {
   authentication: {
     github_token: process.env.GITHUB_TOKEN,
     travis_token: process.env.TRAVIS_TOKEN,
+    npm_token: process.env.NPM_TOKEN,
   },
   /*
   proxy: {
