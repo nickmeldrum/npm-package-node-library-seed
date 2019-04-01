@@ -2,7 +2,7 @@
   "name": "{{{project.name}}}",
   "version": "0.0.1",
   "description": "{{{project.description}}}",
-  "keywords": [],
+  "keywords": [ {{#each project.keywords}}"{{this}}"{{#unless @index}}, {{/unless}}{{/each}} ],
   "homepage": "https://github.com/{{{author.github_username}}}/{{{project.repo_name}}}#readme",
   "author": "{{{author.name}}} <{{{author.email}}}> ({{{author.website}}})",
   "license": "ISC",

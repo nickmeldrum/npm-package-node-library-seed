@@ -16,6 +16,7 @@ const config = {
     name: 'new-repo',
     repo_name: 'new-repo-node',
     description: 'a new repo yo',
+    keywords: ['new', 'repo'],
   },
   local: {
     rootPath: '../', // relative to where you are running the process or absolute

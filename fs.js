@@ -1,7 +1,9 @@
 const path = require('path')
 const util = require('util')
 const fsExtra = require('fs-extra')
-const mustache = require('mustache')
+const handlebars = require('handlebars')
+
+const templateSuffix = '.template'
 
 const readdir = util.promisify(fsExtra.readdir)
 
@@ -12,7 +14,11 @@ module.exports = config => {
 
   const renderTemplate = async file => {
     const contents = await fsExtra.readFile(file, 'utf8')
-    await fsExtra.writeFile(file, mustache.render(contents, config), 'utf8')
+    const fileToWrite = file.endsWith(templateSuffix)
+      ? file.substring(0, file.length - templateSuffix.length)
+      : file
+    await fsExtra.remove(file)
+    await fsExtra.writeFile(fileToWrite, handlebars.compile(contents)(config), 'utf8')
   }
 
   const renderTemplates = async (dir = workingDir) => {

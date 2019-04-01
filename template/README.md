@@ -66,4 +66,6 @@ If you would like to become a maintainer, feel free to [contact me](https://gith
 
 ## Keywords
 
-{{{NPM_KEYWORDS}}}
+{{#each project.keywords}}
+ * {{this}}
+{{/each}}
