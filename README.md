@@ -35,7 +35,7 @@ A seed project to create a new "npm package node library" repository using jest 
    * create the github repo
    * create the local templated files
    * create the local git repo and start tracking the remote
-   * activate the travis repo
+   * sync travis and activate the travis repo
  * You should now have:
    * A boilerplate git repo
    * in github
@@ -49,6 +49,7 @@ A seed project to create a new "npm package node library" repository using jest 
  * This will:
    * remove the github repo
    * remove the local folder
+   * resync travis removing the removed github repo
 
 ## Todo:
 

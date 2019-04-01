@@ -14,8 +14,8 @@ const config = {
     npm_email: 'npm@nickmeldrum.com',
   },
   project: {
-    name: 'new-repo',
-    repo_name: 'new-repo-node',
+    name: 'new-repo-4',
+    repo_name: 'new-repo-node-4',
     description: 'a new repo yo',
     keywords: ['new', 'repo'],
   },
@@ -27,12 +27,10 @@ const config = {
     travis_token: process.env.TRAVIS_TOKEN,
     npm_token: process.env.NPM_TOKEN,
   },
-  /*
   proxy: {
     host: 'http.proxy.fmr.com',
     port: 8000,
   },
-  */
 }
 
 const checks = setupChecks(config)
@@ -42,16 +40,25 @@ const gh = setupGithub(config)
 const travis = setupTravis(config)
 
 const clean = async () => {
+  console.log('removing the github repo...')
   await gh.repos.delete(config.project.repo_name)
+  console.log('cleaning the filesystem...')
   await fs.clean()
+  console.log('syncing travis...')
+  await travis.syncRepos()
 }
 
 const setup = async () => {
-  checks.validate()
+  console.log('validating config...')
+  checks.validateConfig()
+  console.log('creating github repo...')
   await gh.repos.create(config.project.repo_name, config.project.description)
+  console.log('building local files from template...')
   await fs.init()
+  console.log('setting up git repo and tracking remote...')
   await git.initialSetup()
-  await travis.activate()
+  console.log('syncing and activating travis...')
+  await travis.trySyncAndActivate()
 }
 
 const ghRepos = async () => {
@@ -69,6 +76,8 @@ const ghExists = async args => {
   console.log(args.repo, repoExists ? 'exists' : "doesn't exist")
 }
 
+const ghDelete = async args => gh.repos.delete(args.repo)
+
 const ghCreate = async args => gh.repos.create(args.repo, args.description)
 
 const travisList = async () => {
@@ -79,6 +88,11 @@ const travisList = async () => {
 const travisInfo = async () => {
   const info = await travis.info()
   console.log('repo:', info)
+}
+
+const travisUserInfo = async () => {
+  const info = await travis.userInfo()
+  console.log('user:', info)
 }
 
 const travisValidate = async () => {
@@ -95,6 +109,8 @@ require('yargs')
 
   .command('git-initialSetup', '', () => {}, async () => git.initialSetup())
 
+  .command('travis-userinfo', '', () => {}, travisUserInfo)
+  .command('travis-sync', '', () => {}, async () => travis.syncRepos())
   .command('travis-list', '', () => {}, travisList)
   .command('travis-validate', '', () => {}, travisValidate)
   .command('travis-info', '', () => {}, travisInfo)
@@ -102,6 +118,7 @@ require('yargs')
 
   .command(['github-repos', 'github-list'], 'list github repos', () => {}, ghRepos)
   .command('github-exists <repo>', '', () => {}, ghExists)
+  .command('github-delete <repo>', '', () => {}, ghDelete)
   .command('github-branches <repo>', '', () => {}, ghBranches)
   .command('github-create <repo> <description>', 'Create a github repo', () => {}, ghCreate)
 
