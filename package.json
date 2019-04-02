@@ -79,7 +79,6 @@
   },
   "dependencies": {
     "fs-extra": "^7.0.1",
-    "gh-got": "^8.1.0",
     "got": "^9.6.0",
     "handlebars": "^4.1.1",
     "parse-link-header": "^1.0.1",

@@ -1,4 +1,4 @@
-const ghGot = require('gh-got')
+const got = require('got')
 const tunnel = require('tunnel')
 const parseLinkHeader = require('parse-link-header')
 const config = require('./config')
@@ -13,10 +13,14 @@ if (config.proxy)
     },
   })
 
-const callGh = async (url, options = {}) =>
-  ghGot(url, {
-    token: config.authentication.github_token,
+const callGh = async (url, options = {}, json = true) =>
+  got(url, {
     agent,
+    json,
+    headers: {
+      authorization: `token ${config.authentication.github_token}`,
+      accept: 'application/vnd.github.v3+json',
+    },
     ...options,
   })
 
