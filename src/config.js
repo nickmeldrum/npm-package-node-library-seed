@@ -1,3 +1,4 @@
+const path = require('path')
 const urlHelper = require('./url')
 const config = require('../config.json')
 
@@ -27,8 +28,13 @@ const setProxy = () => {
   }
 }
 
+const setWorkingDir = () => {
+  config.workingDir = path.join(config.local.rootPath, config.project.repo_name)
+}
+
 setTokens()
 checkTokens()
 setProxy()
+setWorkingDir()
 
 module.exports = config

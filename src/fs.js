@@ -8,8 +8,6 @@ const readdir = util.promisify(fsExtra.readdir)
 
 const templateSuffix = '.template'
 
-const workingDir = path.join(config.local.rootPath, config.project.repo_name)
-
 const fs = {}
 
 const renderTemplate = async file => {
@@ -21,23 +19,24 @@ const renderTemplate = async file => {
   await fsExtra.writeFile(fileToWrite, handlebars.compile(contents)(config), 'utf8')
 }
 
-const renderTemplates = async (dir = workingDir) => {
-  const isDirectory = source => fsExtra.lstatSync(path.join(dir, source)).isDirectory()
-  const dirContents = await readdir(dir)
+const renderTemplates = async () => {
+  const isDirectory = source =>
+    fsExtra.lstatSync(path.join(config.workingDir, source)).isDirectory()
+  const dirContents = await readdir(config.workingDir)
   const dirs = dirContents.filter(isDirectory)
   const files = dirContents.filter(item => !isDirectory(item))
-  await Promise.all(dirs.map(subDir => renderTemplates(path.join(dir, subDir))))
-  await Promise.all(files.map(file => renderTemplate(path.join(dir, file))))
+  await Promise.all(dirs.map(subDir => renderTemplates(path.join(config.workingDir, subDir))))
+  await Promise.all(files.map(file => renderTemplate(path.join(config.workingDir, file))))
 }
 
 fs.init = async () => {
-  await fsExtra.ensureDir(workingDir)
-  await fsExtra.copy('./template', workingDir)
+  await fsExtra.ensureDir(config.workingDir)
+  await fsExtra.copy('./template', config.workingDir)
   await renderTemplates()
 }
 
 fs.clean = async () => {
-  await fsExtra.remove(workingDir)
+  await fsExtra.remove(config.workingDir)
 }
 
 module.exports = fs

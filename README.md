@@ -55,7 +55,6 @@ A seed project to create a new "npm package node library" repository using jest 
 ## Todo:
 
  * extract the paging from github and travis to reduce duplication
- * move workingDir into shared place - i.e. config has some derived values?
  * allow for HTTPS proxy
  * all modules should have their options passed in instead of depending on config directly
    * then we can have config got from CLI options/ questions as well as ENV or config.json
