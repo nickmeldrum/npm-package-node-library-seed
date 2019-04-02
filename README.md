@@ -25,6 +25,7 @@ A seed project to create a new "npm package node library" repository using jest 
  * Get a github personal access token and set it to the environment variable: `GITHUB_TOKEN`
  * Get a travis personal access token and set it to the environment variable: `TRAVIS_TOKEN`
  * Get an npm token and encrypt it with `travis encrypt` and set it to the environment variable: `NPM_TOKEN`
+ * If you are behind a proxy, set a `PROXY` environment variable as e.g.: `http://proxy.hostname.com:8000`
  * Set the config values to your project setup values
  * Install template build dependencies by running: `yarn`
 
@@ -53,12 +54,12 @@ A seed project to create a new "npm package node library" repository using jest 
 
 ## Todo:
 
- * deal with config - external config file? or set by CLI args? or questions? - should proxy settings be in ENV (machine specific?)
+ * allow proxy/ tokens set by CLI args?
+ * allow config set by CLI/ questions?
+ * allow for HTTPS proxy
  * improve the initialisation of child modules (injecting config?) - removal of "setup" method
  * remove duplication in api based modules (use of got/ proxy etc.)
  * move workingDir into shared place - i.e. config has some derived values?
- * run replacement script on local repo
- * activate travis project: curl -H "Travis-API-Version: 3" -H "User-Agent: API Explorer" -H "Authorization: token $TRAVIS_TOKEN" https://api.travis-ci.org/owner/nickmeldrum/repos > um.json
  * create coveralls project?
 
 ## Example generator config:
@@ -90,6 +91,7 @@ A seed project to create a new "npm package node library" repository using jest 
 ## future:
 
  * maybe have a switch for foss (ISC) based or private (no license) based repo/package?
+ * support https proxies
  * allow for setting node engine
  * have an mjs version? or a ts version?
  * allow switch for adding a proxy server

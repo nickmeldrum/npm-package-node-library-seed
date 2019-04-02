@@ -1,0 +1,21 @@
+{
+  "author": {
+    "name": "Nick Meldrum",
+    "email": "nick@nickmeldrum.com",
+    "website": "https://nickmeldrum.com",
+    "github_username": "nickmeldrum",
+    "npm_email": "npm@nickmeldrum.com"
+  },
+  "project": {
+    "name": "new-repo-4",
+    "repo_name": "new-repo-node-4",
+    "description": "a new repo yo",
+    "keywords": [
+      "new",
+      "repo"
+    ]
+  },
+  "local": {
+    "rootPath": "../"
+  }
+}

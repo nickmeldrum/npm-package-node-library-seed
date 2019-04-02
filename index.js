@@ -1,47 +1,13 @@
 /* eslint-disable no-console */
-const setupChecks = require('./checks')
-const setupFs = require('./fs')
-const setupGit = require('./git')
-const setupGithub = require('./github')
-const setupTravis = require('./travis')
-
-const config = {
-  author: {
-    name: 'Nick Meldrum',
-    email: 'nick@nickmeldrum.com',
-    website: 'https://nickmeldrum.com',
-    github_username: 'nickmeldrum',
-    npm_email: 'npm@nickmeldrum.com',
-  },
-  project: {
-    name: 'new-repo-4',
-    repo_name: 'new-repo-node-4',
-    description: 'a new repo yo',
-    keywords: ['new', 'repo'],
-  },
-  local: {
-    rootPath: '../', // relative to where you are running the process or absolute
-  },
-  authentication: {
-    github_token: process.env.GITHUB_TOKEN,
-    travis_token: process.env.TRAVIS_TOKEN,
-    npm_token: process.env.NPM_TOKEN,
-  },
-  proxy: {
-    host: 'http.proxy.fmr.com',
-    port: 8000,
-  },
-}
-
-const checks = setupChecks(config)
-const fs = setupFs(config)
-const git = setupGit(config)
-const gh = setupGithub(config)
-const travis = setupTravis(config)
+const config = require('./config')
+const fs = require('./fs')
+const git = require('./git')
+const github = require('./github')
+const travis = require('./travis')
 
 const clean = async () => {
   console.log('removing the github repo...')
-  await gh.repos.delete(config.project.repo_name)
+  await github.repos.delete(config.project.repo_name)
   console.log('cleaning the filesystem...')
   await fs.clean()
   console.log('syncing travis...')
@@ -49,10 +15,8 @@ const clean = async () => {
 }
 
 const setup = async () => {
-  console.log('validating config...')
-  checks.validateConfig()
   console.log('creating github repo...')
-  await gh.repos.create(config.project.repo_name, config.project.description)
+  await github.repos.create(config.project.repo_name, config.project.description)
   console.log('building local files from template...')
   await fs.init()
   console.log('setting up git repo and tracking remote...')
@@ -62,23 +26,23 @@ const setup = async () => {
 }
 
 const ghRepos = async () => {
-  const list = await gh.repos.list()
+  const list = await github.repos.list()
   console.log('repos:', list.map(item => item.name))
 }
 
 const ghBranches = async args => {
-  const list = await gh.repo.branches(args.repo)
+  const list = await github.repo.branches(args.repo)
   console.log('branches:', list.map(item => item.name))
 }
 
 const ghExists = async args => {
-  const repoExists = await gh.repo.exists(args.repo)
+  const repoExists = await github.repo.exists(args.repo)
   console.log(args.repo, repoExists ? 'exists' : "doesn't exist")
 }
 
-const ghDelete = async args => gh.repos.delete(args.repo)
+const ghDelete = async args => github.repos.delete(args.repo)
 
-const ghCreate = async args => gh.repos.create(args.repo, args.description)
+const ghCreate = async args => github.repos.create(args.repo, args.description)
 
 const travisList = async () => {
   const list = await travis.list()
@@ -102,8 +66,6 @@ const travisValidate = async () => {
 
 /* eslint-disable no-unused-expressions */
 require('yargs')
-  .command('validate', '', () => {}, async () => checks.validateConfig())
-
   .command('fs-init', '', () => {}, async () => fs.init())
   .command('fs-clean', '', () => {}, async () => fs.clean())
 
