@@ -1,5 +1,5 @@
 const whatwgUrl = require('whatwg-url')
-const config = require('./config.json')
+const config = require('../config.json')
 
 const checkTokens = () => {
   if (!config.authentication.github_token)

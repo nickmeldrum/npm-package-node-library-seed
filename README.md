@@ -62,6 +62,7 @@ A seed project to create a new "npm package node library" repository using jest 
      * allow proxy/ tokens set by CLI args?
    * and modules could be separated out to own packages
  * look at alternatives to coveralls - not responding to issues
+ * add some tests!
 
 ## Future:
 
