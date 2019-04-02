@@ -9,7 +9,7 @@ const clean = async () => {
   console.log('removing the github repo...')
   await github.repos.delete(config.project.repo_name)
   console.log('cleaning the filesystem...')
-  await fs.clean()
+  await fs.clean(config.workingDir)
   console.log('syncing travis...')
   await travis.syncRepos()
 }
@@ -18,7 +18,7 @@ const setup = async () => {
   console.log('creating github repo...')
   await github.repos.create(config.project.repo_name, config.project.description)
   console.log('building local files from template...')
-  await fs.init()
+  await fs.init(config.workingDir, config)
   console.log('setting up git repo and tracking remote...')
   await git.initialSetup()
   console.log('syncing and activating travis...')
@@ -66,8 +66,8 @@ const travisValidate = async () => {
 
 /* eslint-disable no-unused-expressions */
 require('yargs')
-  .command('fs-init', '', () => {}, async () => fs.init())
-  .command('fs-clean', '', () => {}, async () => fs.clean())
+  .command('fs-init', '', () => {}, async () => fs.init(config.workingDir, config))
+  .command('fs-clean', '', () => {}, async () => fs.clean(config.workingDir))
 
   .command('git-initialSetup', '', () => {}, async () => git.initialSetup())
 
