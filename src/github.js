@@ -1,28 +1,15 @@
-const got = require('got')
-const tunnel = require('tunnel')
 const parseLinkHeader = require('parse-link-header')
 const config = require('./config')
+const api = require('./api')
 
-let agent = null
-
-if (config.proxy)
-  agent = tunnel.httpsOverHttp({
-    proxy: {
-      host: config.proxy.host,
-      port: config.proxy.port,
-    },
-  })
-
-const callGh = async (url, options = {}, json = true) =>
-  got(url, {
-    agent,
-    json,
-    headers: {
-      authorization: `token ${config.authentication.github_token}`,
-      accept: 'application/vnd.github.v3+json',
-    },
-    ...options,
-  })
+const callGh = api({
+  baseUrl: 'https://api.github.com',
+  headers: {
+    accept: 'application/vnd.github.v3+json',
+  },
+  token: config.authentication.github_token,
+  proxy: config.proxy,
+})
 
 const listAll = async (url, bodies = []) => {
   const urlToCall = typeof url === 'string' ? url : url.next.url
@@ -41,10 +28,10 @@ const gh = {
 }
 
 gh.repos.create = async (name, description) =>
-  callGh(`user/repos`, { method: 'POST', body: { name, description } })
+  callGh('/user/repos', { method: 'POST', body: { name, description } })
 gh.repos.delete = async name =>
-  callGh(`repos/${config.author.github_username}/${name}`, { method: 'DELETE' })
-gh.repos.list = async () => listAll('user/repos')
+  callGh(`/repos/${config.author.github_username}/${name}`, { method: 'DELETE' })
+gh.repos.list = async () => listAll('/user/repos')
 
 gh.repo.info = async name => callGh(`/repos/${config.author.github_username}/${name}`)
 gh.repo.branches = async name => listAll(`/repos/${config.author.github_username}/${name}/branches`)

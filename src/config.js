@@ -1,4 +1,4 @@
-const whatwgUrl = require('whatwg-url')
+const urlHelper = require('./url')
 const config = require('../config.json')
 
 const checkTokens = () => {
@@ -19,11 +19,7 @@ const setTokens = () => {
 
 const setProxy = () => {
   if (process.env.PROXY) {
-    let url = process.env.PROXY.toLowerCase()
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-      url = `http://${url}`
-    }
-    const parsedUrl = whatwgUrl.parseURL(url)
+    const parsedUrl = urlHelper.getUrlAsObject(urlHelper.ensureScheme(process.env.PROXY))
     if (parsedUrl === null) throw new Error(`PROXY var was not a real url: '${process.env.PROXY}'`)
     config.proxy = {}
     config.proxy.host = parsedUrl.host

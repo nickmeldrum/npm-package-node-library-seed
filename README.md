@@ -54,7 +54,7 @@ A seed project to create a new "npm package node library" repository using jest 
 
 ## Todo:
 
- * remove duplication in api based modules (use of got/ proxy etc.)
+ * extract the paging from github and travis to reduce duplication
  * move workingDir into shared place - i.e. config has some derived values?
  * allow for HTTPS proxy
  * all modules should have their options passed in instead of depending on config directly

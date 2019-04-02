@@ -2,40 +2,20 @@
 const fs = require('fs')
 const path = require('path')
 const util = require('util')
-const got = require('got')
-const tunnel = require('tunnel')
+const pause = require('./pause')
 const config = require('./config')
+const api = require('./api')
+
+const callTravis = api({
+  baseUrl: 'https://api.travis-ci.org',
+  headers: {
+    'Travis-API-Version': '3',
+  },
+  token: config.authentication.travis_token,
+  proxy: config.proxy,
+})
 
 const readFile = util.promisify(fs.readFile)
-
-const baseUrl = 'https://api.travis-ci.org'
-const makeUrl = relative => `${baseUrl}${relative}`
-
-const pause = delay =>
-  new Promise(resolve => {
-    setTimeout(resolve, delay)
-  })
-
-let agent = null
-
-if (config.proxy)
-  agent = tunnel.httpsOverHttp({
-    proxy: {
-      host: config.proxy.host,
-      port: config.proxy.port,
-    },
-  })
-
-const callTravis = async (relativeUrl, options = {}, json = true) =>
-  got(makeUrl(relativeUrl), {
-    agent,
-    json,
-    headers: {
-      authorization: `token ${config.authentication.travis_token}`,
-      'Travis-API-Version': '3',
-    },
-    ...options,
-  })
 
 const listAll = async (url, listName, list = []) => {
   const response = await callTravis(url)
