@@ -20,7 +20,7 @@ const setTokens = () => {
 const setProxy = () => {
   if (process.env.PROXY) {
     let url = process.env.PROXY.toLowerCase()
-    if (!url.startsWith('http://') || !url.startsWith('https://')) {
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
       url = `http://${url}`
     }
     const parsedUrl = whatwgUrl.parseURL(url)
