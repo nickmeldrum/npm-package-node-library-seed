@@ -1,14 +1,21 @@
 const parseLinkHeader = require('parse-link-header')
-const config = require('./config')
 const api = require('./api')
+
+let token
+let proxy
+
+module.exports.setup = ({ authToken, proxySettings }) => {
+  token = authToken
+  proxy = proxySettings
+}
 
 const callGh = api({
   baseUrl: 'https://api.github.com',
   headers: {
     accept: 'application/vnd.github.v3+json',
   },
-  token: config.authentication.github_token,
-  proxy: config.proxy,
+  token,
+  proxy,
 })
 
 const listAll = async (url, bodies = []) => {
@@ -22,27 +29,23 @@ const listAll = async (url, bodies = []) => {
   return bodies
 }
 
-const gh = {
-  repos: {},
-  repo: {},
-}
+module.exports.repos = {}
+module.exports.repo = {}
 
-gh.repos.create = async (name, description) =>
+module.exports.repos.create = async (user, name, description) =>
   callGh('/user/repos', { method: 'POST', body: { name, description } })
-gh.repos.delete = async name =>
-  callGh(`/repos/${config.author.github_username}/${name}`, { method: 'DELETE' })
-gh.repos.list = async () => listAll('/user/repos')
+module.exports.repos.delete = async (user, name) =>
+  callGh(`/repos/${user}/${name}`, { method: 'DELETE' })
+module.exports.repos.list = async () => listAll('/user/repos')
 
-gh.repo.info = async name => callGh(`/repos/${config.author.github_username}/${name}`)
-gh.repo.branches = async name => listAll(`/repos/${config.author.github_username}/${name}/branches`)
-gh.repo.exists = async name => {
+module.exports.repo.info = async (user, name) => callGh(`/repos/${user}/${name}`)
+module.exports.repo.branches = async (user, name) => listAll(`/repos/${user}/${name}/branches`)
+module.exports.repo.exists = async (user, name) => {
   try {
-    await callGh(`/repos/${config.author.github_username}/${name}`, { method: 'HEAD' })
+    await callGh(`/repos/${user}/${name}`, { method: 'HEAD' })
   } catch (e) {
     if (e.response.statusCode === 404) return false
     throw e
   }
   return true
 }
-
-module.exports = gh

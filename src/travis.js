@@ -3,16 +3,23 @@ const fs = require('fs')
 const path = require('path')
 const util = require('util')
 const pause = require('./pause')
-const config = require('./config')
 const api = require('./api')
+
+let token
+let proxy
+
+module.exports.setup = ({ authToken, proxySettings }) => {
+  token = authToken
+  proxy = proxySettings
+}
 
 const callTravis = api({
   baseUrl: 'https://api.travis-ci.org',
   headers: {
     'Travis-API-Version': '3',
   },
-  token: config.authentication.travis_token,
-  proxy: config.proxy,
+  token,
+  proxy,
 })
 
 const readFile = util.promisify(fs.readFile)
@@ -33,11 +40,9 @@ travis.setUserId = async () => {
   travis.userId = (await travis.userInfo()).body.id
 }
 
-travis.list = async () =>
-  listAll(`/owner/${config.author.github_username}/repos?limit=100`, 'repositories')
+travis.list = async user => listAll(`/owner/${user}/repos?limit=100`, 'repositories')
 
-travis.info = async () =>
-  callTravis(`/repo/${config.author.github_username}%2F${config.project.repo_name}`)
+travis.info = async (user, repository) => callTravis(`/repo/${user}%2F${repository}`)
 
 travis.isSyncing = async () => (await travis.userInfo()).body.is_syncing
 
@@ -47,8 +52,8 @@ travis.syncRepos = async () => {
   await callTravis(`/user/${travis.userId}/sync`, { method: 'POST' })
 }
 
-travis.activate = async () =>
-  callTravis(`/repo/${config.author.github_username}%2F${config.project.repo_name}/activate`, {
+travis.activate = async (user, repository) =>
+  callTravis(`/repo/${user}%2F${repository}/activate`, {
     method: 'POST',
   })
 
@@ -88,8 +93,8 @@ travis.trySyncAndActivate = async () => {
   /* eslint-enable no-await-in-loop */
 }
 
-travis.configValid = async () => {
-  const configPath = path.join(config.local.rootPath, config.project.repo_name, '.travis.yml')
+travis.configValid = async (rootPath, repository) => {
+  const configPath = path.join(rootPath, repository, '.travis.yml')
   const body = await readFile(configPath, 'utf8')
   try {
     await callTravis(
